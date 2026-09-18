@@ -1,0 +1,15 @@
+# Build outputs
+/bin/
+*.exe
+*.test
+*.out
+
+# Local input and environment files
+/.env
+/data/
+
+# Editor and OS files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
