@@ -1,0 +1,68 @@
+services:
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: banner-fingerprint:local
+    environment:
+      FINGERPRINT_RULES: /app/rules/fingerprints.json
+    ports:
+      - "127.0.0.1:${SERVER_PORT:-8080}:8080"
+    networks:
+      - edge
+      - backend
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://127.0.0.1:8080/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 3s
+    restart: unless-stopped
+    init: true
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,nodev,size=16m
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 100
+    mem_limit: 128m
+    cpus: 0.50
+    stop_grace_period: 10s
+
+  client:
+    profiles:
+      - tools
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: banner-fingerprint:local
+    command:
+      - /app/client
+      - -file
+      - /data/input.json
+      - -server
+      - http://server:8080
+    volumes:
+      - ./testdata/sample.json:/data/input.json:ro
+    depends_on:
+      server:
+        condition: service_healthy
+    networks:
+      - backend
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,nodev,size=8m
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 50
+    mem_limit: 64m
+    cpus: 0.25
+
+networks:
+  edge: {}
+  backend:
+    internal: true

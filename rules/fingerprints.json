@@ -1,0 +1,132 @@
+{
+  "rules": [
+    {
+      "name": "openssh",
+      "priority": 1000,
+      "pattern": "(?i)^SSH-[0-9.]+-OpenSSH[_-]([^\\s]+)(?:[ \\t]+([^\\r\\n]+))?",
+      "protocol": "SSH",
+      "product": "OpenSSH",
+      "version_group": 1,
+      "os_group": 2,
+      "confidence": 0.95
+    },
+    {
+      "name": "http-nginx",
+      "priority": 900,
+      "pattern": "(?im)^Server:[ \\t]*nginx(?:/([^\\s;\\r\\n]+))?",
+      "protocol": "HTTP",
+      "product": "nginx",
+      "version_group": 1,
+      "confidence": 0.95
+    },
+    {
+      "name": "http-apache",
+      "priority": 900,
+      "pattern": "(?im)^Server:[ \\t]*Apache(?:/([^\\s;\\r\\n]+))?(?:[ \\t]+(\\([^\\r\\n]+\\)))?",
+      "protocol": "HTTP",
+      "product": "Apache",
+      "version_group": 1,
+      "os_group": 2,
+      "confidence": 0.95
+    },
+    {
+      "name": "http-jetty",
+      "priority": 900,
+      "pattern": "(?im)^Server:[ \\t]*Jetty(?:(?:/|\\()([^\\s;)\\r\\n]+)\\)?)?",
+      "protocol": "HTTP",
+      "product": "Jetty",
+      "version_group": 1,
+      "confidence": 0.9
+    },
+    {
+      "name": "http-iis",
+      "priority": 900,
+      "pattern": "(?im)^Server:[ \\t]*Microsoft-IIS(?:/([^\\s;\\r\\n]+))?",
+      "protocol": "HTTP",
+      "product": "Microsoft-IIS",
+      "version_group": 1,
+      "os_hint": "Windows",
+      "confidence": 0.95
+    },
+    {
+      "name": "ftp-proftpd",
+      "priority": 850,
+      "pattern": "(?i)^220[^\\r\\n]*ProFTPD(?:[ /]([^ \\t\\r\\n]+))?",
+      "protocol": "FTP",
+      "product": "ProFTPD",
+      "version_group": 1,
+      "confidence": 0.95
+    },
+    {
+      "name": "ftp-vsftpd",
+      "priority": 850,
+      "pattern": "(?i)^220[^\\r\\n]*vsFTPd[ )/]?([^ )\\r\\n]+)?",
+      "protocol": "FTP",
+      "product": "vsFTPd",
+      "version_group": 1,
+      "confidence": 0.95
+    },
+    {
+      "name": "ftp-pureftpd",
+      "priority": 850,
+      "pattern": "(?i)^220[^\\r\\n]*Pure-FTPd(?:[ /]([^ \\t\\r\\n]+))?",
+      "protocol": "FTP",
+      "product": "Pure-FTPd",
+      "version_group": 1,
+      "confidence": 0.9
+    },
+    {
+      "name": "redis-pong",
+      "priority": 800,
+      "pattern": "(?i)^\\+PONG(?:\\r?\\n)?$",
+      "protocol": "Redis",
+      "product": "Redis",
+      "confidence": 0.85
+    },
+    {
+      "name": "redis-noauth",
+      "priority": 800,
+      "pattern": "(?i)^-NOAUTH\\b",
+      "protocol": "Redis",
+      "product": "Redis",
+      "confidence": 0.9
+    },
+    {
+      "name": "redis-wrong-arguments",
+      "priority": 800,
+      "pattern": "(?i)^-ERR wrong number of arguments\\b",
+      "protocol": "Redis",
+      "product": "Redis",
+      "confidence": 0.85
+    },
+    {
+      "name": "generic-http",
+      "priority": 300,
+      "pattern": "(?i)^HTTP/[0-9.]+[ \\t]+[1-5][0-9]{2}\\b",
+      "protocol": "HTTP",
+      "confidence": 0.75
+    },
+    {
+      "name": "generic-ssh",
+      "priority": 300,
+      "pattern": "(?i)^SSH-[0-9.]+-([^\\s\\r\\n]+)",
+      "protocol": "SSH",
+      "product": "SSH server",
+      "confidence": 0.75
+    },
+    {
+      "name": "generic-ftp",
+      "priority": 200,
+      "pattern": "(?i)^220(?:[ -])[^\\r\\n]*(?:FTP|File Transfer Protocol)",
+      "protocol": "FTP",
+      "confidence": 0.7
+    },
+    {
+      "name": "tls-record",
+      "priority": 100,
+      "pattern": "^[\\x14-\\x17]\\x03[\\x00-\\x04]",
+      "protocol": "TLS",
+      "confidence": 0.7
+    }
+  ]
+}
